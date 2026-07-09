@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R.E.A.D.™ Sales Style Assessment | AM Business Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#202A44;
+    --ink-soft:#4A5470;
+    --paper:#F7F5F0;
+    --card:#FFFFFF;
+    --line:#E4E0D6;
+    --accent:#0E7C7B;
+    --accent-dark:#0A5958;
+    --direct:#C0392B;
+    --emotional:#E67E22;
+    --amiable:#2E8B57;
+    --analytic:#2F6FB2;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Public Sans',system-ui,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:20px 16px 60px}
+  header.brand{
+    display:flex;align-items:baseline;justify-content:space-between;
+    padding:14px 2px 18px;border-bottom:2px solid var(--ink);
+    margin-bottom:22px;
+  }
+  .brand .logo{font-family:'Fraunces',serif;font-weight:650;font-size:1.05rem;letter-spacing:.01em}
+  .brand .tag{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-soft)}
+
+  h1{font-family:'Fraunces',serif;font-weight:650;font-size:clamp(1.7rem,6vw,2.3rem);line-height:1.15;margin-bottom:12px}
+  h2{font-family:'Fraunces',serif;font-weight:650;font-size:1.35rem;margin-bottom:10px}
+  p.lede{color:var(--ink-soft);margin-bottom:20px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;box-shadow:0 1px 3px rgba(32,42,68,.05)}
+
+  label.field{display:block;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:16px 0 6px}
+  input[type=text],input[type=email]{
+    width:100%;padding:12px 14px;font-size:1rem;font-family:inherit;
+    border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);
+  }
+  input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+
+  .btn{
+    display:inline-block;width:100%;padding:14px 20px;margin-top:22px;
+    font-family:inherit;font-size:1rem;font-weight:700;letter-spacing:.01em;
+    color:#fff;background:var(--accent);border:none;border-radius:10px;cursor:pointer;
+    transition:background .15s;
+  }
+  .btn:hover{background:var(--accent-dark)}
+  .btn:disabled{background:#B9C0CF;cursor:not-allowed}
+  .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink);width:auto;padding:12px 18px}
+  .btn.ghost:hover{background:var(--ink);color:#fff}
+
+  .rules{margin:18px 0 4px;padding-left:0;list-style:none}
+  .rules li{display:flex;gap:10px;margin-bottom:10px;font-size:.95rem;color:var(--ink-soft)}
+  .rules li::before{content:"—";color:var(--accent);font-weight:700;flex:0 0 auto}
+
+  /* ---- Question screen ---- */
+  .qbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .qcount{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:650}
+  .timer{font-variant-numeric:tabular-nums;font-weight:700;font-size:1rem;color:var(--accent-dark);
+    background:#E7F1F0;padding:6px 12px;border-radius:999px}
+  .timer.low{color:#fff;background:var(--direct)}
+  .progress{height:5px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:20px}
+  .progress b{display:block;height:100%;background:var(--accent);width:0%;transition:width .25s}
+
+  .colhead{display:grid;grid-template-columns:56px 56px 1fr;gap:8px;padding:0 8px 8px;
+    font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft)}
+  .row{display:grid;grid-template-columns:56px 56px 1fr;gap:8px;align-items:center;
+    padding:14px 8px;border-top:1px solid var(--line)}
+  .row:last-of-type{border-bottom:1px solid var(--line)}
+  .pill{
+    width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);
+    background:#fff;font-weight:800;font-size:.85rem;color:var(--ink-soft);cursor:pointer;
+    font-family:inherit;transition:all .12s;
+  }
+  .pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .pill.m.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .pill.l.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .row .txt{font-size:.98rem}
+
+  .nav{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+  .nav .btn{width:auto;min-width:110px;margin-top:0}
+
+  /* ---- Results ---- */
+  .style-chip{display:inline-block;padding:4px 12px;border-radius:999px;color:#fff;
+    font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+  .bars{margin:20px 0 8px}
+  .bar-row{margin-bottom:14px}
+  .bar-label{display:flex;justify-content:space-between;font-size:.88rem;font-weight:600;margin-bottom:5px}
+  .bar-track{height:14px;background:var(--line);border-radius:99px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:99px;width:0%;transition:width .8s ease}
+
+  .result-block{margin-top:18px}
+  .result-block h3{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+    color:var(--ink-soft);margin-bottom:8px}
+  .result-block ul{padding-left:18px}
+  .result-block li{margin-bottom:6px;font-size:.95rem}
+
+  .cta{margin-top:26px;background:var(--ink);color:#fff;border-radius:var(--radius);padding:22px 20px}
+  .cta h2{color:#fff}
+  .cta p{color:#C9CEDD;font-size:.95rem;margin-bottom:6px}
+  .cta a{color:#8FD6D5;font-weight:700;text-decoration:none}
+
+  .hidden{display:none}
+  footer{margin-top:34px;text-align:center;font-size:.75rem;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brand">
+    <span class="logo">AM Business Coaching</span>
+    <span class="tag">R.E.A.D.™ Framework</span>
+  </header>
+
+  <!-- ============ WELCOME ============ -->
+  <section id="screen-welcome">
+    <h1>Sales Style Assessment</h1>
+    <p class="lede">Discover your natural selling style — Direct, Emotional, Amiable or Analytic — and learn how to flex it to connect with any client.</p>
+    <div class="card">
+      <ul class="rules">
+        <li>24 sets of four statements about how you sell and communicate.</li>
+        <li>In each set, choose the one that describes you <strong>Most</strong> and the one that describes you <strong>Least</strong>.</li>
+        <li>Go with your first instinct — there are no right or wrong answers.</li>
+        <li>You have 15 minutes. Most people finish in under 10.</li>
+      </ul>
+      <label class="field" for="f-name">Your name</label>
+      <input type="text" id="f-name" autocomplete="name" placeholder="e.g. Priya Nair">
+      <label class="field" for="f-email">Email</label>
+      <input type="email" id="f-email" autocomplete="email" placeholder="you@example.com">
+      <button class="btn" id="btn-start">Start the assessment</button>
+    </div>
+  </section>
+
+  <!-- ============ QUESTIONS ============ -->
+  <section id="screen-quiz" class="hidden">
+    <div class="qbar">
+      <span class="qcount"><span id="q-num">1</span> of 24</span>
+      <span class="timer" id="timer">15:00</span>
+    </div>
+    <div class="progress"><b id="prog"></b></div>
+    <div class="card">
+      <div class="colhead"><span>Most</span><span>Least</span><span></span></div>
+      <div id="rows"></div>
+      <div class="nav">
+        <button class="btn ghost" id="btn-back">‹ Back</button>
+        <button class="btn" id="btn-next" disabled>Next ›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="screen-results" class="hidden">
+    <h1>Your Sales Style</h1>
+    <div class="card">
+      <span class="style-chip" id="res-chip"></span>
+      <h2 id="res-title"></h2>
+      <p class="lede" id="res-tagline"></p>
+      <div class="bars" id="bars"></div>
+      <div class="result-block">
+        <h3>Your strengths in selling</h3>
+        <ul id="res-strengths"></ul>
+      </div>
+      <div class="result-block">
+        <h3>Watch out for</h3>
+        <ul id="res-watch"></ul>
+      </div>
+      <div class="result-block">
+        <h3>Your secondary style</h3>
+        <p id="res-secondary" style="font-size:.95rem"></p>
+      </div>
+    </div>
+    <div class="cta">
+      <h2>Speak. Connect. Close.</h2>
+      <p>Your style is your starting point — top performers learn to <strong>R.E.A.D.</strong> every client and flex their approach. Bring this framework to your team.</p>
+      <p><a href="https://anbarasimarimuthu.com" target="_blank" rel="noopener">anbarasimarimuthu.com →</a></p>
+    </div>
+  </section>
+
+  <footer>© AM Business Coaching · R.E.A.D.™ Sales Style Assessment</footer>
+</div>
+
+<script>
+/* =========================================================
+   CONFIG
+   To capture leads: create a Formspree form and paste its
+   endpoint below, e.g. "https://formspree.io/f/abcdwxyz".
+   Leave empty ("") to disable submission.
+========================================================= */
+const FORMSPREE_ENDPOINT = "";
+const TIME_LIMIT_SECONDS = 15 * 60;
+
+/* ---- Styles ---- */
+const STYLES = {
+  D:{name:"Direct", color:"var(--direct)",
+     tagline:"You sell with drive. Results, speed and the close come naturally to you.",
+     strengths:["Asks for the business confidently and closes decisively","Recovers fast from rejection and keeps prospecting","Thrives on targets, competition and tough negotiations","Keeps momentum — deals rarely stall on your side"],
+     watch:["Can come across as pushy to Amiable and Analytic clients","May skip rapport-building and rush the discovery stage","Impatience can show when a client needs time to decide"]},
+  E:{name:"Emotional", color:"var(--emotional)",
+     tagline:"You sell with energy. People, stories and enthusiasm are your natural tools.",
+     strengths:["Builds instant rapport and warms up cold prospects","Presents with passion — clients remember your energy","Natural networker who turns contacts into referrals","Inspires and motivates clients toward a vision"],
+     watch:["Details and follow-up paperwork can slip through the cracks","May talk more than listen in discovery conversations","Optimism can lead to over-promising on delivery"]},
+  A:{name:"Amiable", color:"var(--amiable)",
+     tagline:"You sell with trust. Relationships, loyalty and genuine care set you apart.",
+     strengths:["Builds deep, long-term client relationships that renew and refer","Listens patiently and makes clients feel truly heard","Dependable follow-through — you keep every promise","Calms anxious clients and handles service issues gracefully"],
+     watch:["May hesitate to ask for the sale or push for a decision","Avoiding conflict can mean under-negotiating on price","Can stay too long with unproductive prospects out of loyalty"]},
+  N:{name:"Analytic", color:"var(--analytic)",
+     tagline:"You sell with precision. Preparation, proof and process are your edge.",
+     strengths:["Thoroughly prepared — you know the product and the numbers","Builds credibility with evidence, comparisons and accuracy","Manages the pipeline systematically; nothing gets lost","Excellent with technical buyers and complex solutions"],
+     watch:["Analysis can delay action — perfect can be the enemy of closed","May lead with facts when the client needs feeling and story","Risk-aversion can make bold asks feel uncomfortable"]}
+};
+
+/* ---- 24 original question sets (one statement per style, order varied) ---- */
+const QUESTIONS = [
+  [["A","Build trust before talking business"],["D","Push hard to close the deal"],["N","Check every detail before committing"],["E","Win people over with enthusiasm"]],
+  [["E","Tell stories that bring ideas to life"],["N","Follow a proven step-by-step process"],["D","Compete to be top of the leaderboard"],["A","Keep clients for the long term"]],
+  [["N","Back every claim with data"],["A","Listen more than you speak"],["E","Energise the room"],["D","Make quick decisions under pressure"]],
+  [["D","Take charge of the conversation"],["E","Connect fast with strangers"],["A","Stay calm when clients are upset"],["N","Prepare thoroughly before every meeting"]],
+  [["A","Support teammates who struggle"],["N","Question numbers that look wrong"],["D","Focus on results, not activities"],["E","Celebrate wins loudly"]],
+  [["E","Use humour to break the ice"],["D","Challenge objections head-on"],["N","Read the fine print carefully"],["A","Follow up faithfully after the sale"]],
+  [["N","Organise your pipeline systematically"],["E","Inspire others to take action"],["A","Give clients time to decide"],["D","Set ambitious targets"]],
+  [["D","Ask for the business confidently"],["A","Keep promises no matter what"],["E","Talk easily about personal topics"],["N","Compare options before recommending one"]],
+  [["A","Prefer steady, familiar routines"],["D","Move fast when opportunity appears"],["E","Make presentations entertaining"],["N","Document everything accurately"]],
+  [["E","Network at every event"],["N","Perfect your pitch before using it"],["D","Speak bluntly and get to the point"],["A","Be the dependable one on the team"]],
+  [["N","Analyse why a deal was lost"],["A","Put the client's comfort first"],["D","Recover quickly from rejection"],["E","Show excitement about new products"]],
+  [["D","Negotiate hard on price"],["E","Attract attention naturally"],["N","Stick to the plan"],["A","Avoid conflict where possible"]],
+  [["A","Cooperate to keep harmony"],["E","Improvise when things change"],["D","Prefer to lead, not follow"],["N","Double-check before you send"]],
+  [["E","Persuade with passion"],["D","Say no without guilt"],["A","Show genuine care for clients"],["N","Weigh risks before acting"]],
+  [["N","Insist on accuracy in proposals"],["D","Act first, ask permission later"],["E","Turn strangers into friends quickly"],["A","Serve loyally behind the scenes"]],
+  [["D","Push through when others quit"],["A","Adapt to what the client prefers"],["E","Keep meetings light and fun"],["N","Measure everything that matters"]],
+  [["A","Wait patiently for the right moment"],["N","Verify facts before repeating them"],["E","Share big-picture visions"],["D","Confront problems immediately"]],
+  [["E","Express feelings openly"],["A","Make everyone feel included"],["N","Keep detailed client records"],["D","Own the outcome, good or bad"]],
+  [["N","Plan the week in advance"],["E","Love the spotlight"],["D","Thrive on tough targets"],["A","Prefer one-on-one conversations"]],
+  [["D","Decide with limited information"],["N","Test before you trust"],["A","Stay loyal to long-time clients"],["E","React with visible enthusiasm"]],
+  [["A","Value stability over excitement"],["D","Take calculated risks boldly"],["N","Prefer written details over verbal promises"],["E","Warm up a cold room"]],
+  [["E","Convince through charm"],["N","Correct errors others miss"],["D","Direct others with confidence"],["A","Give others credit generously"]],
+  [["N","Want proof, not promises"],["A","Keep your word quietly"],["E","Start conversations anywhere"],["D","Get impatient with slow progress"]],
+  [["D","Demand high standards of yourself"],["E","Motivate the team with energy"],["A","Comfort clients who are anxious"],["N","Do it right or not at all"]]
+];
+
+/* ---- State ---- */
+let current = 0;
+let answers = QUESTIONS.map(()=>({most:null,least:null}));
+let secondsLeft = TIME_LIMIT_SECONDS;
+let timerId = null;
+let userName = "", userEmail = "";
+
+const $ = id => document.getElementById(id);
+
+/* ---- Welcome ---- */
+$("btn-start").addEventListener("click", () => {
+  userName = $("f-name").value.trim();
+  userEmail = $("f-email").value.trim();
+  if(!userName || !userEmail || !userEmail.includes("@")){
+    alert("Please enter your name and a valid email to begin.");
+    return;
+  }
+  $("screen-welcome").classList.add("hidden");
+  $("screen-quiz").classList.remove("hidden");
+  startTimer();
+  render();
+  window.scrollTo(0,0);
+});
+
+/* ---- Timer ---- */
+function startTimer(){
+  timerId = setInterval(()=>{
+    secondsLeft--;
+    const m = Math.floor(secondsLeft/60), s = secondsLeft%60;
+    const t = $("timer");
+    t.textContent = `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+    if(secondsLeft <= 120) t.classList.add("low");
+    if(secondsLeft <= 0){ clearInterval(timerId); finish(); }
+  },1000);
+}
+
+/* ---- Render question ---- */
+function render(){
+  $("q-num").textContent = current+1;
+  $("prog").style.width = ((current)/QUESTIONS.length*100) + "%";
+  const set = QUESTIONS[current];
+  const ans = answers[current];
+  const rows = $("rows");
+  rows.innerHTML = "";
+  set.forEach((item, idx)=>{
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML =
+      `<button class="pill m ${ans.most===idx?"on":""}" data-i="${idx}" aria-label="Most like me: ${item[1]}">M</button>`+
+      `<button class="pill l ${ans.least===idx?"on":""}" data-i="${idx}" aria-label="Least like me: ${item[1]}">L</button>`+
+      `<span class="txt">${item[1]}</span>`;
+    rows.appendChild(row);
+  });
+  rows.querySelectorAll(".pill.m").forEach(b=>b.addEventListener("click",()=>pick("most",+b.dataset.i)));
+  rows.querySelectorAll(".pill.l").forEach(b=>b.addEventListener("click",()=>pick("least",+b.dataset.i)));
+  $("btn-back").style.visibility = current===0 ? "hidden":"visible";
+  $("btn-next").textContent = current===QUESTIONS.length-1 ? "See my results" : "Next ›";
+  updateNext();
+}
+
+function pick(kind, idx){
+  const ans = answers[current];
+  const other = kind==="most" ? "least" : "most";
+  if(ans[other]===idx) ans[other] = null;       // same item can't be both
+  ans[kind] = ans[kind]===idx ? null : idx;     // tap again to clear
+  render();
+}
+
+function updateNext(){
+  const ans = answers[current];
+  $("btn-next").disabled = !(ans.most!==null && ans.least!==null);
+}
+
+$("btn-back").addEventListener("click",()=>{ if(current>0){current--;render();window.scrollTo(0,0);} });
+$("btn-next").addEventListener("click",()=>{
+  if(current < QUESTIONS.length-1){ current++; render(); window.scrollTo(0,0); }
+  else finish();
+});
+
+/* ---- Scoring & results ---- */
+function finish(){
+  clearInterval(timerId);
+  const score = {D:0,E:0,A:0,N:0};
+  answers.forEach((ans,qi)=>{
+    if(ans.most!==null)  score[QUESTIONS[qi][ans.most][0]]  += 2;
+    if(ans.least!==null) score[QUESTIONS[qi][ans.least][0]] -= 1;
+  });
+  const order = Object.keys(score).sort((a,b)=>score[b]-score[a]);
+  const primary = order[0], secondary = order[1];
+
+  $("screen-quiz").classList.add("hidden");
+  $("screen-results").classList.remove("hidden");
+  window.scrollTo(0,0);
+
+  const P = STYLES[primary];
+  $("res-chip").textContent = "Primary style";
+  $("res-chip").style.background = P.color;
+  $("res-title").textContent = (userName? userName+", you are ":"You are ")+"the "+P.name+" seller";
+  $("res-tagline").textContent = P.tagline;
+  $("res-strengths").innerHTML = P.strengths.map(s=>`<li>${s}</li>`).join("");
+  $("res-watch").innerHTML = P.watch.map(s=>`<li>${s}</li>`).join("");
+  $("res-secondary").innerHTML =
+    `<strong style="color:${STYLES[secondary].color}">${STYLES[secondary].name}</strong> — ${STYLES[secondary].tagline}`;
+
+  // Bars (normalise: min possible -6, max possible +12 per style is theoretical; scale to observed range)
+  const vals = Object.values(score);
+  const max = Math.max(...vals, 1), min = Math.min(...vals, 0);
+  const bars = $("bars"); bars.innerHTML = "";
+  ["D","E","A","N"].forEach(k=>{
+    const pct = Math.round(((score[k]-min)/(max-min || 1))*90+10);
+    const row = document.createElement("div");
+    row.className = "bar-row";
+    row.innerHTML =
+      `<div class="bar-label"><span>${STYLES[k].name}</span><span>${score[k]}</span></div>`+
+      `<div class="bar-track"><div class="bar-fill" style="background:${STYLES[k].color}"></div></div>`;
+    bars.appendChild(row);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      row.querySelector(".bar-fill").style.width = pct+"%";
+    }));
+  });
+
+  // Optional lead capture
+  if(FORMSPREE_ENDPOINT){
+    fetch(FORMSPREE_ENDPOINT,{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({
+        name:userName, email:userEmail,
+        primary:STYLES[primary].name, secondary:STYLES[secondary].name,
+        scores:score, completedAt:new Date().toISOString()
+      })
+    }).catch(()=>{});
+  }
+}
+</script>
+</body>
+</html>
